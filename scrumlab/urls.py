@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from jedzonko import views
 from jedzonko.views import IndexView, DashboardView, RecipeListView, \
     PlanListView, RecipeAddView, PlanAddView, PlanAddRecipeView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,3 +30,4 @@ urlpatterns = [
     path('plan/add', PlanAddView.as_view(), name="plan_add"),
     path('plan/add-recipe', PlanAddRecipeView.as_view(), name="plan_add_recipe"),
 ]
+

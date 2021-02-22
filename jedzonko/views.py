@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.core.paginator import Paginator
 
 from django.shortcuts import render
 from django.views import View
@@ -16,7 +17,12 @@ class RecipeListView(View):
 
     def get(self, request):
         list_of_recipes = Recipe.objects.all()
-        ctx = {'list_of_recipes': list_of_recipes}
+
+        paginator = Paginator(list_of_recipes, 1)
+        page = request.GET.get('page')
+        recipes = paginator.get_page(page)
+
+        ctx = {'recipes': recipes}
         return render(request, 'app-recipes.html', ctx)
 
 

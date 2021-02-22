@@ -16,7 +16,7 @@ class IndexView(View):
 class RecipeListView(View):
 
     def get(self, request):
-        list_of_recipes = Recipe.objects.all()
+        list_of_recipes = Recipe.objects.all().order_by('-created').order_by('-votes')
 
         paginator = Paginator(list_of_recipes, 1) #tu ustawia się ile elementów ma pojawiać się na stronie, do testów 1 (powinno być 50)
         page = request.GET.get('page')

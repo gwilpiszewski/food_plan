@@ -15,28 +15,8 @@ class IndexView(View):
 class RecipeListView(View):
 
     def get(self, request):
-        # template = f"""
-        #             <tr class="d-flex">
-        #             <th scope="row" class="col-1">1</th>
-        #             <td class="col-2">
-        #                 {{ recipes_title }}
-        #             </td>
-        #             <td class="col-7"> {{ recipes_content}}
-        #             </td>
-        #             <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
-        #                 <a href="#"
-        #                    class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-        #                 <a href="/app-recipe-details.html"
-        #                    class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-        #                 <a href="/app-edit-recipe.html"
-        #                    class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
-        #             </td>
-        #             </tr>
-        # """
-
-        myrange = [1, 2, 3, 4, 5, 6]
-        ctx = {'myrange': myrange}
-        # ctx = {'template': template}
+        list_of_recipes = Recipe.objects.all()
+        ctx = {'list_of_recipes': list_of_recipes}
         return render(request, 'app-recipes.html', ctx)
 
 

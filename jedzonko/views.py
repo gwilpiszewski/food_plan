@@ -10,3 +10,10 @@ class IndexView(View):
         ctx = {"actual_date": datetime.now()}
 
         return render(request, "index.html", ctx)
+
+
+class DashboardView(View):
+
+    def get(self, request):
+
+        return render(request, "dashboard.html")

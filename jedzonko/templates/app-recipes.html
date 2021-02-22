@@ -44,16 +44,18 @@
             <span class="step-links">
                 {% if recipes.has_previous %}
                     <a href="?page=1">&laquo; pierwsza</a>
-                    <a href="?page={{ recipes.previous_page_number }}">poprzednia</a>
+                    <a href="?page={{ recipes.previous_page_number }}">| poprzednia</a>
                 {% endif %}
 
                 <span class="current">
-                    Strona {{ recipes.number }} z {{ recipes.paginator.num_pages }}
+                    {% for page_number in list_of_pagenumbers %}
+                        <a href="?page={{ page_number }}">| {{ page_number }}</a>
+                    {% endfor %}
                 </span>
 
                 {% if recipes.has_next %}
-                    <a href="?page={{ recipes.next_page_number }}">następna</a>
-                    <a href="?page={{ recipes.paginator.num_pages }}">ostatnia &raquo;</a>
+                    <a href="?page={{ recipes.next_page_number }}">| następna</a>
+                    <a href="?page={{ recipes.paginator.num_pages }}">| ostatnia &raquo;</a>
                 {% endif %}
             </span>
         </div>

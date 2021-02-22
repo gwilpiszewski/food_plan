@@ -26,13 +26,6 @@ class DashboardView(View):
         return render(request, "dashboard.html", context=context)
 
 
-class RecipeListView(View):
-
-    def get(self, request):
-
-        return render(request, "tu bedzie html recipe list")
-
-
 class PlanListView(View):
 
     def get(self, request):

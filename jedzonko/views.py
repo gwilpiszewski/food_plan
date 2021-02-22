@@ -20,8 +20,9 @@ class RecipeListView(View):
 class DashboardView(View):
 
     def get(self, request):
-        number_of_plans = Recipe.objects.all().count()
-        context = {"number_of_plans": number_of_plans}
+        number_of_plans = 0  # Plan.objects.all().count()  # po dodaniu modelu 'Plan' odkomentować
+        number_of_recipes = Recipe.objects.all().count()
+        context = {"number_of_plans": number_of_plans, "number_of_recipes": number_of_recipes}
         return render(request, "dashboard.html", context=context)
 
 

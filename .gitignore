@@ -137,7 +137,7 @@ coverage.xml
 
 # Django stuff:
 *.log
-local_settings.pygo
+local_settings.py
 db.sqlite3
 
 # Flask stuff:

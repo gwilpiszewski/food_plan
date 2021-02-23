@@ -14,7 +14,7 @@ class Recipe(models.Model):
     votes = models.SmallIntegerField(default=0)
 
     def __str__(self):
-    return f"{self.name} {self.description}"
+        return f"{self.name} {self.description}"
     
 
 class Plan(models.Model):

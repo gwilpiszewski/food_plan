@@ -28,7 +28,7 @@ class Dayname(models.Model):
         (6, "Sobota"),
         (7, "Niedziela"),
         )
-    day = models.IntegerField(choices=day_names, null=True)
+    day = models.IntegerField(choices=day_names, default=1)
 
 class RecipePlan(models.Model):
     meal_names = (
@@ -38,7 +38,7 @@ class RecipePlan(models.Model):
         (4, "Podwieczorek"),
         (5, "Kolacja"),
     )
-    meal_names = models.IntegerField(choices=meal_names)
+    meal_names = models.IntegerField(choices=meal_names, default=1)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
     order = models.IntegerField()

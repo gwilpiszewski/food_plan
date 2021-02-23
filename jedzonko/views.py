@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.core.paginator import Paginator
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from jedzonko.models import Recipe
 
@@ -45,7 +45,22 @@ class PlanListView(View):
 class RecipeAddView(View):
 
     def get(self, request):
-        return render(request, "tu bedzie html recipe add")
+        return render(request, "app-add-recipe.html")
+
+    def post(self, request):
+        name = request.POST['name']
+        description = request.POST['description']
+        preparation_time = request.POST['preparation_time']
+        preparation_method = request.POST['preparation_method']
+        ingredients = request.POST['ingredients']
+        Recipe.objects.create(
+            name=name,
+            description=description,
+            preparation_time=preparation_time,
+            preparation_method=preparation_method,
+            ingredients=ingredients
+        )
+        return redirect('/')  # tymczasowe
 
 
 class PlanAddView(View):
@@ -58,3 +73,22 @@ class PlanAddRecipeView(View):
 
     def get(self, request):
         return render(request, "tu bedzie html plan add recipe")
+
+
+class AboutView(View):
+
+    def get(self, request):
+        return render(request, 'index.html')
+
+
+class ContactView(View):
+
+    def get(self, request):
+        return render(request, 'index.html')
+
+
+class RecipeView(View):
+
+    def get(self, requst):
+        return render(requst, "tu będzie html recipe id")
+

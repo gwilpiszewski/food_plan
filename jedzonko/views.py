@@ -18,10 +18,12 @@ class RecipeListView(View):
     def get(self, request):
         list_of_recipes = Recipe.objects.all().order_by('-created').order_by('-votes')
 
-        paginator = Paginator(list_of_recipes, 2) #tu ustawia się ile elementów ma pojawiać się na stronie, do testów 1 (powinno być 50)
+        paginator = Paginator(list_of_recipes,
+                              2)  # tu ustawia się ile elementów ma pojawiać się na stronie, do testów 1 (powinno być 50)
         page = request.GET.get('page')
         recipes = paginator.get_page(page)
-        list_of_pagenumbers = [i for i in range(1, recipes.paginator.num_pages+1)] #lista do interowania w for do środkowej części paginatora
+        list_of_pagenumbers = [i for i in range(1,
+                                                recipes.paginator.num_pages + 1)]  # lista do interowania w for do środkowej części paginatora
 
         ctx = {'recipes': recipes, 'list_of_pagenumbers': list_of_pagenumbers}
         return render(request, 'app-recipes.html', ctx)
@@ -45,22 +47,32 @@ class PlanListView(View):
 class RecipeAddView(View):
 
     def get(self, request):
-        return render(request, "app-add-recipe.html")
+        message = ""
+        context = {'message': message}
+        return render(request, "app-add-recipe.html", context=context)
 
     def post(self, request):
+        message = ""
+        context = {'message': message}
+
         name = request.POST['name']
         description = request.POST['description']
         preparation_time = request.POST['preparation_time']
         preparation_method = request.POST['preparation_method']
         ingredients = request.POST['ingredients']
-        Recipe.objects.create(
-            name=name,
-            description=description,
-            preparation_time=preparation_time,
-            preparation_method=preparation_method,
-            ingredients=ingredients
-        )
-        return redirect('/')  # tymczasowe
+
+        if (name != '' and description != '' and preparation_time != ''
+                and preparation_method != '' and ingredients != ''):
+            Recipe.objects.create(
+                name=name,
+                description=description,
+                preparation_time=preparation_time,
+                preparation_method=preparation_method,
+                ingredients=ingredients
+            )
+            return redirect('/recipe/list')
+        else:
+            return render(request, "app-add-recipe.html", context={"message": "Wypełnij poprawnie wszystkie pola"})
 
 
 class PlanAddView(View):
@@ -91,4 +103,3 @@ class RecipeView(View):
 
     def get(self, requst):
         return render(requst, "tu będzie html recipe id")
-

@@ -75,7 +75,20 @@ class PlanAddRecipeView(View):
         return render(request, "tu bedzie html plan add recipe")
 
 
+class AboutView(View):
+
+    def get(self, request):
+        return render(request, 'index.html')
+
+
+class ContactView(View):
+
+    def get(self, request):
+        return render(request, 'index.html')
+
+
 class RecipeView(View):
 
     def get(self, requst):
         return render(requst, "tu będzie html recipe id")
+

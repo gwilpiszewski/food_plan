@@ -10,8 +10,8 @@ class Recipe(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     preparation_time = models.SmallIntegerField(default=0)
+    preparation_method = models.TextField(max_length=1200)
     votes = models.SmallIntegerField(default=0)
 
     def __str__(self):
         return f"{self.name} {self.description}"
-

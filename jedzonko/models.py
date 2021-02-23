@@ -12,3 +12,6 @@ class Recipe(models.Model):
     preparation_time = models.SmallIntegerField(default=0)
     votes = models.SmallIntegerField(default=0)
 
+    def __str__(self):
+        return f"{self.name} {self.description}"
+

@@ -3,11 +3,14 @@ from datetime import datetime
 from django.shortcuts import render
 from django.views import View
 from jedzonko.models import Recipe
+import random
 
 class IndexView(View):
 
     def get(self, request):
-        ctx = {"actual_date": datetime.now()}
+        recipes = list(Recipe.objects.all())
+        random.shuffle(recipes)
+        ctx = {"actual_date": datetime.now(), "recipes": recipes}
         return render(request, "index.html", ctx)
 
 class RecipeListView(View):

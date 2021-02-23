@@ -1,8 +1,10 @@
 from datetime import datetime
+from django.core.paginator import Paginator
 
 from django.shortcuts import render
 from django.views import View
 from jedzonko.models import Recipe
+
 
 class IndexView(View):
 
@@ -10,11 +12,19 @@ class IndexView(View):
         ctx = {"actual_date": datetime.now()}
         return render(request, "index.html", ctx)
 
+
 class RecipeListView(View):
 
     def get(self, request):
-        context = {}
-        return render(request, 'app-recipes.html', {})       
+        list_of_recipes = Recipe.objects.all().order_by('-created').order_by('-votes')
+
+        paginator = Paginator(list_of_recipes, 2) #tu ustawia się ile elementów ma pojawiać się na stronie, do testów 1 (powinno być 50)
+        page = request.GET.get('page')
+        recipes = paginator.get_page(page)
+        list_of_pagenumbers = [i for i in range(1, recipes.paginator.num_pages+1)] #lista do interowania w for do środkowej części paginatora
+
+        ctx = {'recipes': recipes, 'list_of_pagenumbers': list_of_pagenumbers}
+        return render(request, 'app-recipes.html', ctx)
 
 
 class DashboardView(View):

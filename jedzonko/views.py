@@ -23,10 +23,12 @@ class RecipeListView(View):
     def get(self, request):
         list_of_recipes = Recipe.objects.all().order_by('-created').order_by('-votes')
 
-        paginator = Paginator(list_of_recipes, 2)  # tu ustawia się ile elementów ma pojawiać się na stronie, do testów 1 (powinno być 50)
+        paginator = Paginator(list_of_recipes,
+                              2)  # tu ustawia się ile elementów ma pojawiać się na stronie, do testów 1 (powinno być 50)
         page = request.GET.get('page')
         recipes = paginator.get_page(page)
-        list_of_pagenumbers = [i for i in range(1, recipes.paginator.num_pages + 1)]  # lista do interowania w for do środkowej części paginatora
+        list_of_pagenumbers = [i for i in range(1,
+                                                recipes.paginator.num_pages + 1)]  # lista do interowania w for do środkowej części paginatora
 
         ctx = {'recipes': recipes, 'list_of_pagenumbers': list_of_pagenumbers}
         return render(request, 'app-recipes.html', ctx)
@@ -87,7 +89,18 @@ class RecipeAddView(View):
 class PlanAddView(View):
 
     def get(self, request):
-        return render(request, "tu bedzie html plan add")
+        return render(request, "app-add-schedules.html")
+
+    def post(self, request):
+        name = request.POST['planName']
+        description = request.POST['planDescription']
+        if (name != "" and description != ""):
+            Plan.objects.create(name=name, description=description)
+        else:
+            ctx = {'message': "Wypełnij poprawnie wszystkie pola"}
+            return render(request, "app-add-schedules.html", ctx)
+
+        return redirect('plan_add')
 
 
 class PlanAddRecipeView(View):

@@ -95,8 +95,9 @@ class PlanAddView(View):
         name = request.POST['planName']
         description = request.POST['planDescription']
         if (name != "" and description != ""):
-            Plan.objects.create(name=name, description=description)
-            return render(request, 'app-details-schedules.html')
+            plan = Plan.objects.create(name=name, description=description)
+            ctx = {'plan':plan}
+            return render(request, 'app-details-schedules.html', ctx)
         else:
             ctx = {'message': "Wypełnij poprawnie wszystkie pola"}
             return render(request, "app-add-schedules.html", ctx)

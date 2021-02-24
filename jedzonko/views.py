@@ -4,12 +4,17 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views import View
 from jedzonko.models import Recipe, Plan
+import random
 
 
 class IndexView(View):
 
     def get(self, request):
-        ctx = {"actual_date": datetime.now()}
+        recipes = Recipe.objects.all()
+        recipes = [x for x in recipes]
+        random.shuffle(recipes)
+        recipes = recipes[:3]
+        ctx = {"actual_date": datetime.now(), "recipes": recipes}
         return render(request, "index.html", ctx)
 
 

@@ -97,7 +97,7 @@ class PlanAddView(View):
         if (name != "" and description != ""):
             plan = Plan.objects.create(name=name, description=description)
             ctx = {'plan':plan}
-            return render(request, 'app-details-schedules.html', ctx)
+            return redirect(f'/plan/{plan.id}/details')
         else:
             ctx = {'message': "Wypełnij poprawnie wszystkie pola"}
             return render(request, "app-add-schedules.html", ctx)

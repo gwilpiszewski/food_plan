@@ -23,6 +23,7 @@ class Plan(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     recipes = models.ManyToManyField(Recipe, through="RecipePlan")
 
+
 class Dayname(models.Model):
     day_names = (
         (1, "Poniedziałek"),
@@ -32,8 +33,9 @@ class Dayname(models.Model):
         (5, "Piątek"),
         (6, "Sobota"),
         (7, "Niedziela"),
-        )
+    )
     day = models.IntegerField(choices=day_names, default=1)
+
 
 class RecipePlan(models.Model):
     meal_names = (

@@ -129,7 +129,7 @@ class PlanAddRecipeView(View):
             order=meal_number,
             day_name=dayname)
 
-        return redirect(f'/plan/{plan_id}/details/')
+        return redirect(f'/plan/{plan_id}/')
 
 
 class AboutView(View):

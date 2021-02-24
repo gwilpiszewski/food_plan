@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 
 from django.shortcuts import render, redirect
 from django.views import View
-from jedzonko.models import Recipe, Plan
+from jedzonko.models import Recipe, Plan, RecipePlan
 import random
 
 
@@ -106,7 +106,19 @@ class PlanAddView(View):
 class PlanAddRecipeView(View):
 
     def get(self, request):
-        return render(request, "tu bedzie html plan add recipe")
+        recipes = Recipe.objects.all()
+        plans = Plan.objects.all()
+        recipe_plan = RecipePlan.objects.all()
+        context = {"recipes": recipes, "plans": plans, "recipe_plan": recipe_plan}
+        return render(request, "app-schedules-meal-recipe.html", context=context)
+
+    def post(self, request):
+        plan_id = request.POST['plan']
+        meal_name = request.POST['meal_name']
+        meal_number = request.POST['meal_number']
+        recipe_id = request.POST['recipe']
+        day_name = request.POST['day_name']
+        print(plan_id, meal_name, meal_number, recipe_id, day_name)  # do testu
 
 
 class AboutView(View):

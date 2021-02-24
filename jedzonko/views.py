@@ -110,5 +110,9 @@ class ContactView(View):
 
 class RecipeView(View):
 
-    def get(self, requst):
-        return render(requst, "tu będzie html recipe id")
+    def get(self, request, id):
+        recipe = Recipe.objects.get(pk=id)
+
+
+        ctx = {'recipe': recipe}
+        return render(request, "app-recipe-details.html", ctx)

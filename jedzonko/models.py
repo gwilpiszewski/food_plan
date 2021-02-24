@@ -45,7 +45,7 @@ class RecipePlan(models.Model):
         (4, "Podwieczorek"),
         (5, "Kolacja"),
     )
-    meal_names = models.IntegerField(choices=meal_names, default=1)
+    meal_name = models.IntegerField(choices=meal_names, default=1) #nazwa powinna być meal_name (bez "s")
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
     order = models.IntegerField()

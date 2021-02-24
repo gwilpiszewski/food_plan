@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 
 from django.shortcuts import render, redirect
 from django.views import View
-from jedzonko.models import Recipe, Plan, RecipePlan
+from jedzonko.models import Recipe, Plan, RecipePlan, Dayname
 import random
 
 
@@ -96,7 +96,7 @@ class PlanAddView(View):
         description = request.POST['planDescription']
         if (name != "" and description != ""):
             plan = Plan.objects.create(name=name, description=description)
-            ctx = {'plan':plan}
+            ctx = {'plan': plan}
             return redirect(f'/plan/{plan.id}/details')
         else:
             ctx = {'message': "Wypełnij poprawnie wszystkie pola"}
@@ -113,12 +113,23 @@ class PlanAddRecipeView(View):
         return render(request, "app-schedules-meal-recipe.html", context=context)
 
     def post(self, request):
-        plan_id = request.POST['plan']
-        meal_name = request.POST['meal_name']
-        meal_number = request.POST['meal_number']
-        recipe_id = request.POST['recipe']
-        day_name = request.POST['day_name']
-        print(plan_id, meal_name, meal_number, recipe_id, day_name)  # do testu
+        plan_id = int(request.POST['plan'])
+        meal_name = int(request.POST['meal_name'])
+        meal_number = int(request.POST['meal_number'])
+        recipe_id = int(request.POST['recipe'])
+        day_nr = int(request.POST['day_name'])
+
+        plan = Plan.objects.get(pk=plan_id)
+        recipe = Recipe.objects.get(pk=recipe_id)
+        dayname = Dayname.objects.get(day=day_nr)
+        recipeplan = RecipePlan.objects.create(
+            meal_name=meal_name,
+            recipe=recipe,
+            plan=plan,
+            order=meal_number,
+            day_name=dayname)
+
+        return redirect(f'/plan/{plan_id}/details/')
 
 
 class AboutView(View):
@@ -143,6 +154,5 @@ class RecipeView(View):
 
 class PlanDetailsView(View):
 
-    def get(self, request):
+    def get(self, request, id):
         return render(request, "app-details-schedules.html")
-

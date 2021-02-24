@@ -96,11 +96,10 @@ class PlanAddView(View):
         description = request.POST['planDescription']
         if (name != "" and description != ""):
             Plan.objects.create(name=name, description=description)
+            return render(request, 'app-details-schedules.html')
         else:
             ctx = {'message': "Wypełnij poprawnie wszystkie pola"}
             return render(request, "app-add-schedules.html", ctx)
-
-        return redirect('plan_add')
 
 
 class PlanAddRecipeView(View):
@@ -125,3 +124,9 @@ class RecipeView(View):
 
     def get(self, requst):
         return render(requst, "tu będzie html recipe id")
+
+
+class PlanDetailsView(View):
+
+    def get(self, request):
+        return render(request, "app-details-schedules.html")

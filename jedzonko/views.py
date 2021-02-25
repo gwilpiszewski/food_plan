@@ -96,7 +96,7 @@ class PlanAddView(View):
         description = request.POST['planDescription']
         if (name != "" and description != ""):
             plan = Plan.objects.create(name=name, description=description)
-            ctx = {'plan':plan}
+            ctx = {'plan': plan}
             return redirect(f'/plan/{plan.id}/details')
         else:
             ctx = {'message': "Wypełnij poprawnie wszystkie pola"}
@@ -143,6 +143,14 @@ class RecipeView(View):
 
 class PlanDetailsView(View):
 
-    def get(self, request):
-        return render(request, "app-details-schedules.html")
+    def get(self, request, id):
+        plan = Plan.objects.get(pk=id)
+        recipes_in_plan = RecipePlan.objects.filter(plan=id)
+        recipes_per_day_list = []
 
+        for x in range(1, 8):
+            r = recipes_in_plan.filter(day_name=x).order_by('meal_names')
+            if len(r) != 0:
+                recipes_per_day_list.append(r)
+        ctx = {'plan': plan, 'recipes_per_day_list': recipes_per_day_list}
+        return render(request, "app-details-schedules.html", ctx)

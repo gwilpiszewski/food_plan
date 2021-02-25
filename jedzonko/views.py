@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.core.paginator import Paginator
-from urllib.error import HTTPError
+from django.http import Http404
 
 from django.shortcuts import render, redirect
 from django.views import View
@@ -147,8 +147,8 @@ class RecipeEditView(View):
     def get(self, request, id):
         try:
             recipe = Recipe.objects.get(pk=id)
-        except:
-            return HTTPError
+        except Recipe.DoesNotExist:
+            raise Http404("Przepis nie istnieje")
 
         context = {"recipe": recipe}
         return render(request, "app-edit-recipe.html", context=context)
@@ -162,15 +162,21 @@ class RecipeEditView(View):
         recipe_new_preparation_time = request.POST.get("recipe_new_preparation_time")
         recipe_new_preparation_method = request.POST.get("recipe_new_preparation_method")
 
-        recipe.name = recipe_new_name
-        recipe.ingredients = recipe_new_ingredients
-        recipe.description = recipe_new_description
-        recipe.preparation_time = recipe_new_preparation_time
-        recipe.preparation_time = recipe_new_preparation_time
-        recipe.preparation_method = recipe_new_preparation_method
-        recipe.save()
+        if recipe_new_name == '' \
+                or recipe_new_ingredients == '' \
+                or recipe_new_description == '' \
+                or recipe_new_preparation_time == '':
 
-        return redirect("index")
+            return render(request, "app-edit-recipe.html", context={"message": "Wypełnij poprawnie wszystkie pola"})
+        else:
+            recipe.name = recipe_new_name
+            recipe.ingredients = recipe_new_ingredients
+            recipe.description = recipe_new_description
+            recipe.preparation_time = recipe_new_preparation_time
+            recipe.preparation_method = recipe_new_preparation_method
+            recipe.save()
+
+            return render(request, "app-edit-recipe.html", context={"message": "Przepis zmodyfikowano"})
 
 
 class PlanDetailsView(View):

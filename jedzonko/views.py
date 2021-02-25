@@ -143,6 +143,8 @@ class RecipeView(View):
 
 class PlanDetailsView(View):
 
-    def get(self, request):
-        return render(request, "app-details-schedules.html")
+    def get(self, request, id):
+        plan = Plan.objects.get(pk=id)
+        ctx = {'plan': plan}
+        return render(request, "app-details-schedules.html", ctx)
 

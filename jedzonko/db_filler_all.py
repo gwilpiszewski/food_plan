@@ -208,3 +208,11 @@ recipeplan14= RecipePlan.objects.create(meal_names=3, recipe=r2, plan=p2, order=
 recipeplan15 = RecipePlan.objects.create(meal_names=5, recipe=r6, plan=p2, order=1, day_name=d3)
 recipeplan16 = RecipePlan.objects.create(meal_names=1, recipe=r2, plan=p2, order=2, day_name=d5)
 recipeplan18 = RecipePlan.objects.create(meal_names=5, recipe=r3, plan=p2, order=1, day_name=d5)
+
+recipeplan19 = RecipePlan.objects.create(meal_names=1, recipe=r1, plan=p3, order=1, day_name=d1)
+recipeplan20 = RecipePlan.objects.create(meal_names=3, recipe=r2, plan=p3, order=3, day_name=d1)
+recipeplan21 = RecipePlan.objects.create(meal_names=1, recipe=r5, plan=p3, order=3, day_name=d3)
+recipeplan22= RecipePlan.objects.create(meal_names=3, recipe=r4, plan=p3, order=2, day_name=d3)
+recipeplan23 = RecipePlan.objects.create(meal_names=5, recipe=r2, plan=p3, order=1, day_name=d3)
+recipeplan24 = RecipePlan.objects.create(meal_names=1, recipe=r6, plan=p3, order=2, day_name=d5)
+recipeplan25 = RecipePlan.objects.create(meal_names=5, recipe=r1, plan=p3, order=1, day_name=d5)

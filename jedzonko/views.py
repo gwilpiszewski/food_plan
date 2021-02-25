@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.core.paginator import Paginator
+from urllib.error import HTTPError
 
 from django.shortcuts import render, redirect
 from django.views import View
@@ -96,7 +97,7 @@ class PlanAddView(View):
         description = request.POST['planDescription']
         if (name != "" and description != ""):
             plan = Plan.objects.create(name=name, description=description)
-            ctx = {'plan':plan}
+            ctx = {'plan': plan}
             return redirect(f'/plan/{plan.id}/details')
         else:
             ctx = {'message': "Wypełnij poprawnie wszystkie pola"}
@@ -141,8 +142,38 @@ class RecipeView(View):
         return render(request, "app-recipe-details.html", ctx)
 
 
+class RecipeEditView(View):
+
+    def get(self, request, id):
+        try:
+            recipe = Recipe.objects.get(pk=id)
+        except:
+            return HTTPError
+
+        context = {"recipe": recipe}
+        return render(request, "app-edit-recipe.html", context=context)
+
+    def post(self, request, id):
+        recipe = Recipe.objects.get(pk=id)
+
+        recipe_new_name = request.POST.get("recipe_new_name")
+        recipe_new_ingredients = request.POST.get("recipe_new_ingredients")
+        recipe_new_description = request.POST.get("recipe_new_description")
+        recipe_new_preparation_time = request.POST.get("recipe_new_preparation_time")
+        recipe_new_preparation_method = request.POST.get("recipe_new_preparation_method")
+
+        recipe.name = recipe_new_name
+        recipe.ingredients = recipe_new_ingredients
+        recipe.description = recipe_new_description
+        recipe.preparation_time = recipe_new_preparation_time
+        recipe.preparation_time = recipe_new_preparation_time
+        recipe.preparation_method = recipe_new_preparation_method
+        recipe.save()
+
+        return redirect("index")
+
+
 class PlanDetailsView(View):
 
     def get(self, request):
         return render(request, "app-details-schedules.html")
-

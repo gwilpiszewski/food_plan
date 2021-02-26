@@ -40,9 +40,27 @@ class DashboardView(View):
     def get(self, request):
         number_of_plans = Plan.objects.all().count()
         number_of_recipes = Recipe.objects.all().count()
-        context = {"number_of_plans": number_of_plans, "number_of_recipes": number_of_recipes}
-        return render(request, "dashboard.html", context=context)
+        # context = {"number_of_plans": number_of_plans, "number_of_recipes": number_of_recipes}
+        # return render(request, "dashboard.html", context=context)
 
+    # def get(self, request, id):
+        plan_last = Plan.objects.all().order_by('-created').first()
+        recipes_in_plan = RecipePlan.objects.filter(plan=plan_last.id)
+        recipes_per_day_list = []
+
+        for x in range(1, 8):
+            r = recipes_in_plan.filter(day_name=x).order_by('meal_names')
+            if len(r) != 0:
+                recipes_per_day_list.append(r)
+        # ctx = {'plan': plan, 'recipes_per_day_list': recipes_per_day_list}
+        context = {"number_of_plans": number_of_plans,
+                   "number_of_recipes": number_of_recipes,
+                   'plan_last':plan_last,
+                   'recipes_per_day_list': recipes_per_day_list}
+        return render(request, "dashboard.html", context=context)
+        # return render(request, "app-details-schedules.html", ctx)
+
+# ------------------------
 
 class PlanListView(View):
 

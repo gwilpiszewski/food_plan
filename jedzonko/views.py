@@ -161,9 +161,16 @@ class RecipeView(View):
 
     def get(self, request, id):
         recipe = Recipe.objects.get(pk=id)
-        ctx = {'recipe': recipe}
+        recipe_id = id
+        ctx = {'recipe': recipe, 'recipe_id': recipe_id}
         return render(request, "app-recipe-details.html", ctx)
 
+    def post(self, request, id):
+        recipe = Recipe.objects.get(pk=id)
+        votes = recipe.votes + 1
+        recipe.votes = votes
+        recipe.save()
+        return render(request, "app-recipe-details.html", context={"recipe": recipe})
 
 class RecipeEditView(View):
 

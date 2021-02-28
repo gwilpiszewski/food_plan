@@ -5,18 +5,22 @@
 
     <div class="mt-4 ml-4 mr-4">
         <div class="row border-bottom border-3">
-            <div class="col"><h3 class="color-header text-uppercase">Szczegóły
-                przepisu</h3></div>
+            <div class="col"><h3 class="color-header text-uppercase">Szczegóły przepisu</h3></div>
+
             <div class="col d-flex justify-content-end mb-2">
                 <a href="{% url 'plan_add_recipe'%}"
-                    class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">
-                    Dodaj przepis do planu
-                </a>
+                    class="btn btn-color rounded-0 pt-3 pb-0 pr-4 pl-4">Dodaj przepis do planu</a>
             </div>
+
+            <div class="col d-flex justify-content-end mb-2"><button type="submit"
+                    class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4" form="vote_up_button">Polub przepis</button>
+            </div>
+
             <div class="col d-flex justify-content-end mb-2"><a
                     href="{% url 'recipe_list' %}"
-                    class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                    class="btn btn-color rounded-0 pt-3 pb-0 pr-4 pl-4">Powrót</a>
             </div>
+
         </div>
 
         <table class="table borderless">
@@ -72,7 +76,10 @@
 {#                <li>gałązka tymianku 1 szt.</li>#}
             </ul>
         </div>
-
+        <form method="post" id="vote_up_button" action="">
+            {% csrf_token %}
+            <input type="hidden" value="{{ recipe_id }}" name="vote_up">
+        </form>
     </div>
 </div>
 {% endblock content %}
